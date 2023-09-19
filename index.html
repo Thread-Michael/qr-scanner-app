@@ -30,8 +30,6 @@
 
     // handle success
     const qrCodeSuccessCallback = (decodedText, decodedResult) => {
-        //alert("Woohoo! Here's what you scanned: " + decodedText);
-
         if (!scanned) {
             beep();
             scanned = true;
@@ -51,11 +49,19 @@
     document.getElementById("start_stop_camera").onclick = function() {controlCamera()};
 
     function controlCamera() {
-        html5QrCode.stop().then((ignore) => {
-            // QR Code scanning is stopped.
-        }).catch((err) => {
-          // Stop failed, handle it.
-        });
+        if (document.getElementById("start_stop_camera").innerHTML == "Stop Camera") {
+            html5QrCode.stop().then((ignore) => {
+                document.getElementById("start_stop_camera").innerHTML = "Start Camera";
+            }).catch((err) => {
+              // Stop failed, handle it.
+            });
+        } else if (document.getElementById("start_stop_camera").innerHTML == "Start Camera") {
+            html5QrCode.start().then((ignore) => {
+                document.getElementById("start_stop_camera").innerHTML = "Stop Camera";
+            }).catch((err) => {
+              // Stop failed, handle it.
+            });
+        }
     }
 
     /*
