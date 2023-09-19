@@ -49,13 +49,13 @@
     document.getElementById("start_stop_camera").onclick = function() {controlCamera()};
 
     function controlCamera() {
-        if (document.getElementById("start_stop_camera").innerHTML == "Stop Camera") {
+        if (document.getElementById("start_stop_camera").innerHTML === "Stop Camera") {
             html5QrCode.stop().then((ignore) => {
                 document.getElementById("start_stop_camera").innerHTML = "Start Camera";
             }).catch((err) => {
               // Stop failed, handle it.
             });
-        } else if (document.getElementById("start_stop_camera").innerHTML == "Start Camera") {
+        } else if (document.getElementById("start_stop_camera").innerHTML === "Start Camera") {
             html5QrCode.start().then((ignore) => {
                 document.getElementById("start_stop_camera").innerHTML = "Stop Camera";
             }).catch((err) => {
