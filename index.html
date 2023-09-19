@@ -19,6 +19,7 @@
     <div style="margin: auto; padding: 64px;">
         <div style="margin: auto; border: 3px solid #282828; border-radius: 4px; width: 500px;" id="reader">
         </div>
+        <button id="start_stop_camera" onclick="controlCamera()">Stop Scanning</button>
     </div>
 
 </body>
@@ -46,6 +47,16 @@
 
     // prefer front camera
     html5QrCode.start({ facingMode: "user" }, config, qrCodeSuccessCallback);
+
+    document.getElementById("start_stop_camera").onclick = function() {controlCamera()};
+
+    function controlCamera() {
+        html5QrCode.stop().then((ignore) => {
+            // QR Code scanning is stopped.
+        }).catch((err) => {
+          // Stop failed, handle it.
+        });
+    }
 
     /*
     *   Plays a beep sound to indicate that the presented code had been scanned
