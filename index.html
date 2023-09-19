@@ -56,7 +56,7 @@
               // Stop failed, handle it.
             });
         } else if (document.getElementById("start_stop_camera").innerHTML == "Start Camera") {
-            html5QrCode.start().then((ignore) => {
+            html5QrCode.start() => {
                 document.getElementById("start_stop_camera").innerHTML = "Stop Camera";
             }).catch((err) => {
               // Stop failed, handle it.
