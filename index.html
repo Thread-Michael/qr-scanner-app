@@ -1,19 +1,24 @@
 <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
 <!--
-<script src="./main/jsqrcode-combined.js"></script>
-<script src="./main/html5-qrcode.js"></script>
+<script src="./jsqrcode-combined.js"></script>
+<script src="./html5-qrcode.js"></script>
 -->
 
 <style>
+    * { margin: 0; padding: 0; }
     body {
         background-color: #FFFFFF;
+
+        padding: 0;
     }
 
+    /*
     #flip_camera {
         height: 150px;
         width: 200px;
         font-size: 15px;
     }
+    */
 
     #img-main-container {
         margin: auto;
@@ -35,6 +40,7 @@
         border: 3px solid #282828;
         border-radius: 4px;
         margin: auto;
+        margin-top: 32px;
         width: 500px;
     }
 
@@ -131,11 +137,24 @@
         }
     };
 
-    const config = { fps: 10, qrbox: { width: 300, height: 300 } };
+    var config = '';
 
     // set rear camera if on mobile browser, front (only) camera if on desktop
     if (isMobile) {
         console.log("Open on mobile browser");
+
+        var width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+        var height = (window.innerHeight > 0) ? window.innerHeight : screen.height;
+
+        var halfWidth = width / 2;
+        
+        console.log("Mobile height: " + height);
+        console.log("Mobile width: " + width);
+        
+        sizeController(width - 128, height);
+
+        config = { fps: 10, qrbox: { width: halfWidth, height: halfWidth } };
+
         console.log("Current state: " + getCameraState());
 
         html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
@@ -154,6 +173,9 @@
         console.log("cameraFacingMode = 2 (rear)");
     } else {
         console.log("Open on desktop browser");
+
+        config = { fps: 10, qrbox: { width: 300, height: 300 } };
+
         console.log("Current state: " + getCameraState());
         
         html5QrCode.start({ facingMode: "user" }, config, qrCodeSuccessCallback);
@@ -170,6 +192,16 @@
 
         cameraFacingMode = 1;
         console.log("cameraFacingMode = 1 (front)");
+    }
+
+    function sizeController(deviceWidth, deviceHeight) {
+        // modify width
+        document.querySelector("#reader").style.width = deviceWidth + "px";
+        document.querySelector("#text-header-container").style.width = deviceWidth + "px";
+
+        // modify height
+        //document.querySelector("#reader").style.height = deviceHeight + "px";
+        //document.querySelector("#text-header-container").style.height = deviceHeight + "px";
     }
 
     function controlCamera() {
