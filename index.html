@@ -102,12 +102,12 @@
 
     // prefer rear camera
     html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
-    
-    document.getElementById().style.webkitTransform = scale(1, 1);
-    document.getElementById().style.MozTransform = scale(1, 1);
-    document.getElementById().style.msTransform = scale(1, 1);
-    document.getElementById().style.OTransform = scale(1, 1);
-    document.getElementById().style.transform = scale(1, 1);
+
+    document.getElementById("reader").style.webkitTransform = scale(1, 1);
+    document.getElementById("reader").style.MozTransform = scale(1, 1);
+    document.getElementById("reader").style.msTransform = scale(1, 1);
+    document.getElementById("reader").style.OTransform = scale(1, 1);
+    document.getElementById("reader").style.transform = scale(1, 1);
 
     cameraFacingMode = 2;
 
@@ -138,11 +138,11 @@
             html5QrCode.stop();
             html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
 
-            document.getElementById().style.webkitTransform = scale(1, 1);
-            document.getElementById().style.MozTransform = scale(1, 1);
-            document.getElementById().style.msTransform = scale(1, 1);
-            document.getElementById().style.OTransform = scale(1, 1);
-            document.getElementById().style.transform = scale(1, 1);
+            document.getElementById("reader").style.webkitTransform = scale(1, 1);
+            document.getElementById("reader").style.MozTransform = scale(1, 1);
+            document.getElementById("reader").style.msTransform = scale(1, 1);
+            document.getElementById("reader").style.OTransform = scale(1, 1);
+            document.getElementById("reader").style.transform = scale(1, 1);
 
             cameraFacingMode = 2;
 
@@ -151,11 +151,11 @@
             html5QrCode.stop();
             html5QrCode.start({ facingMode: "user" }, config, qrCodeSuccessCallback);
 
-            document.getElementById().style.webkitTransform = scale(-1, 1);
-            document.getElementById().style.MozTransform = scale(-1, 1);
-            document.getElementById().style.msTransform = scale(-1, 1);
-            document.getElementById().style.OTransform = scale(-1, 1);
-            document.getElementById().style.transform = scale(-1, 1);
+            document.getElementById("reader").style.webkitTransform = scale(-1, 1);
+            document.getElementById("reader").style.MozTransform = scale(-1, 1);
+            document.getElementById("reader").style.msTransform = scale(-1, 1);
+            document.getElementById("reader").style.OTransform = scale(-1, 1);
+            document.getElementById("reader").style.transform = scale(-1, 1);
 
             cameraFacingMode = 1;
 
