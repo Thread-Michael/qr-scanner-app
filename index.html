@@ -131,12 +131,13 @@
 
     function flipCamera() {
         document.querySelector("#start_stop_camera").disabled = true;
-        html5QrCode.stop();
 
         if (cameraFacingMode == 1) {
+            html5QrCode.stop();
             html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
             cameraFacingMode = 2;
         } else if (cameraFacingMode == 2) {
+            html5QrCode.stop();
             html5QrCode.start({ facingMode: "user" }, config, qrCodeSuccessCallback);
             cameraFacingMode = 1;
         } else {
