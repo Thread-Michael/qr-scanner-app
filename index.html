@@ -78,7 +78,7 @@
 <body>
     <div id="img-main-container">
         <div id="img-sub-container">
-            <img src="./main/Thread Official Trademarked Logo.png">
+            <img id="thread-logo" src="">
         </div>
     </div>
 
@@ -113,14 +113,61 @@
     // checks if mobile browser
     const isMobile = navigator.userAgentData.mobile;
 
-    /*
-    document.getElementById("flip_camera").onclick = function() {flipCamera()};
-    */
-    document.getElementById("start_stop_camera").onclick = function() {controlCamera()};
-
     const html5QrCode = new Html5Qrcode("reader", { formatsToSupport: [ Html5QrcodeSupportedFormats.QR_CODE ] });
     let scanned = false;
     var cameraFacingMode = 0;
+
+    window.addEventListener("load", (event) => {
+        var image = document.querySelector("#thread-logo");
+        var imgSourceArray = ["./main/Thread Official Trademarked Logo.png", "./Thread Official Trademarked Logo.png"];
+        let index = 0;
+
+        let thisInterval = setInterval(() => {
+            var isLoaded = image.complete && image.naturalHeight !== 0;
+            console.log("Checking image source: " + imgSourceArray[index]);
+            
+            if (isLoaded) {
+                // if image is loaded
+                console.log(isLoaded);
+                console.log("Image " + imgSourceArray[index] + " loaded");
+                clearInterval(thisInterval); // clearInterval
+            } else {
+                console.log("Changing img source=> " + index);
+                image.setAttribute("src", imgSourceArray[index]);
+                if (index <= imgSourceArray.length) {
+                    index++;
+                }
+            }
+        }, 100);
+    });
+
+    window.addEventListener("visibilitychange", (event) => {
+        if (document.visibilityState == "visible") {
+            console.log("Tab is active");
+            console.log("Current state: " + getCameraState());
+            if (html5QrCode.getState() == 3) {
+                try {
+                    html5QrCode.resume();
+                    console.log("Scanning resumed");
+                    console.log("Current state (after resume): " + getCameraState());
+                } catch (err) {
+                    console.log("Error - " + err + ": unable to resume stream");
+                }
+            }
+        } else {
+            console.log("Tab is inactive");
+            console.log("Current state: " + getCameraState());
+            if (html5QrCode.getState() == 2) {
+                try {
+                    html5QrCode.pause();
+                    console.log("Scanning paused");
+                    console.log("Current state (after pause): " + getCameraState());
+                } catch (err) {
+                    console.log("Error - " + err + ": unable to pause stream");
+                }
+            }
+        }
+    });
 
     // handle QR code scan success
     const qrCodeSuccessCallback = (decodedText, decodedResult) => {
@@ -146,14 +193,14 @@
         var width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
         var height = (window.innerHeight > 0) ? window.innerHeight : screen.height;
 
-        var halfWidth = width / 2;
+        var scannerWidth = 2 * (width / 3);
         
         console.log("Mobile height: " + height);
         console.log("Mobile width: " + width);
         
         sizeController(width - 128, height);
 
-        config = { fps: 10, qrbox: { width: halfWidth, height: halfWidth } };
+        config = { fps: 10, qrbox: { width: scannerWidth, height: scannerWidth } };
 
         console.log("Current state: " + getCameraState());
 
