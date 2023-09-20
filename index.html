@@ -1,32 +1,77 @@
 <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
-<script src="./main/jsqrcode-combined.js"></script>
-<script src="./main/html5-qrcode.js"></script>
+<script src="./jsqrcode-combined.js"></script>
+<script src="./html5-qrcode.js"></script>
 
-<body style="background-color: #FFFFFF;">
-    
-    <div style="margin: auto; padding: 16px;">
-        <div style="margin: auto; text-align: center;">
-            <img src="./main/Thread Official Trademarked Logo.png">
+<style>
+    body {
+        background-color: #FFFFFF;
+    }
+
+    #img-main-container {
+        margin: auto;
+        padding: 16px;
+    }
+
+    #img-sub-container {
+        margin: auto;
+        text-align: center;
+    }
+
+    #reader {
+        -moz-transform: scale(-1, 1);
+        -webkit-transform: scale(-1, 1);
+        -o-transform: scale(-1, 1);
+        -ms-transform: scale(-1, 1);
+        transform: scale(-1, 1);
+
+        border: 3px solid #282828;
+        border-radius: 4px;
+        margin: auto;
+        width: 500px;
+    }
+
+    #text-header-container {
+        margin: auto;
+        margin-top: 64px;
+        width: 500px;
+    }
+
+    #text-header {
+        color: #228B9D;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 30px;
+        font-weight: 600;
+        text-align: center;
+    }
+</style>
+
+<body>
+    <div id="img-main-container">
+        <div id="img-sub-container">
+            <img src="./Thread Official Trademarked Logo.png">
         </div>
     </div>
 
-    <div style="margin: auto; width: 500px; margin-top: 64px;">
-        <p style="text-align: center; color: #228B9D; font-family: Arial, Helvetica, sans-serif; font-size: 30px; font-weight: 600;">
+    <div id="text-header-container">
+        <p id="text-header">
             Scan your code to get checked-in!
         </p>
     </div>
 
     <div style="margin: auto; padding: 64px;">
-        <div style="margin: auto; border: 3px solid #282828; border-radius: 4px; width: 500px;" id="reader">
+        <div id="reader">
         </div>
-        <button id="start_stop_camera" onclick="controlCamera()">Stop Camera</button>
+        <div style="width: 500px; margin: auto;">
+            <button id="flip_camera" onclick="flipCamera()">Flip Camera</button>
+            <button id="start_stop_camera" onclick="controlCamera()">Stop Camera</button>
+        </div>
     </div>
-
 </body>
 
 <script>
     const html5QrCode = new Html5Qrcode("reader", { formatsToSupport: [ Html5QrcodeSupportedFormats.QR_CODE ] });
     let scanned = false;
+    var cameraFacingMode = 0;
 
     // handle success
     const qrCodeSuccessCallback = (decodedText, decodedResult) => {
@@ -45,22 +90,50 @@
 
     // prefer front camera
     html5QrCode.start({ facingMode: "user" }, config, qrCodeSuccessCallback);
+    cameraFacingMode = 1;
 
+    document.getElementById("flip_camera").onclick = function() {flipCamera()};
     document.getElementById("start_stop_camera").onclick = function() {controlCamera()};
 
     function controlCamera() {
         if (document.getElementById("start_stop_camera").innerHTML == "Stop Camera") {
-            html5QrCode.stop().then((ignore) => {
+
+            html5QrCode.stop();
+            document.getElementById("start_stop_camera").innerHTML = "Start Camera";
+
+            /*
+            try html5QrCode.stop().then(() => {
                 document.getElementById("start_stop_camera").innerHTML = "Start Camera";
             }).catch((err) => {
               // Stop failed, handle it.
             });
+            */
+
         } else if (document.getElementById("start_stop_camera").innerHTML == "Start Camera") {
-            html5QrCode.start() => {
+            html5QrCode.start({ facingMode: "user" }, config, qrCodeSuccessCallback);
+            cameraFacingMode = 1;
+            document.getElementById("start_stop_camera").innerHTML = "Stop Camera";
+
+            /*
+            try html5QrCode.start().then(() => {
                 document.getElementById("start_stop_camera").innerHTML = "Stop Camera";
             }).catch((err) => {
               // Stop failed, handle it.
             });
+            */
+
+        }
+    }
+
+    function flipCamera() {
+        if (cameraFacingMode == 1) {
+            html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
+            cameraFacingMode = 2;
+        } else if (cameraFacingMode == 2) {
+            html5QrCode.start({ facingMode: "user" }, config, qrCodeSuccessCallback);
+            cameraFacingMode = 1;
+        } else {
+            console.log("Error: no camera facing mode set.");
         }
     }
 
