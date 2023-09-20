@@ -1,6 +1,6 @@
 <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
-<script src="./jsqrcode-combined.js"></script>
-<script src="./html5-qrcode.js"></script>
+<script src="./main/jsqrcode-combined.js"></script>
+<script src="./main/html5-qrcode.js"></script>
 
 <style>
     body {
@@ -30,6 +30,10 @@
         width: 500px;
     }
 
+    #start_stop_camera {
+
+    }
+
     #text-header-container {
         margin: auto;
         margin-top: 64px;
@@ -48,7 +52,7 @@
 <body>
     <div id="img-main-container">
         <div id="img-sub-container">
-            <img src="./Thread Official Trademarked Logo.png">
+            <img src="./main/Thread Official Trademarked Logo.png">
         </div>
     </div>
 
@@ -126,6 +130,9 @@
     }
 
     function flipCamera() {
+        document.querySelector("#start_stop_camera").disabled = true;
+        html5QrCode.stop();
+
         if (cameraFacingMode == 1) {
             html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
             cameraFacingMode = 2;
@@ -135,6 +142,8 @@
         } else {
             console.log("Error: no camera facing mode set.");
         }
+
+        document.querySelector("#start_stop_camera").disabled = false;
     }
 
     /*
