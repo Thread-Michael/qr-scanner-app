@@ -100,9 +100,16 @@
     };
     const config = { fps: 10, qrbox: { width: 300, height: 300 } };
 
-    // prefer front camera
+    // prefer rear camera
     html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
-    cameraFacingMode = 1;
+    
+    document.getElementById().style.webkitTransform = scale(1, 1);
+    document.getElementById().style.MozTransform = scale(1, 1);
+    document.getElementById().style.msTransform = scale(1, 1);
+    document.getElementById().style.OTransform = scale(1, 1);
+    document.getElementById().style.transform = scale(1, 1);
+
+    cameraFacingMode = 2;
 
     document.getElementById("flip_camera").onclick = function() {flipCamera()};
     document.getElementById("start_stop_camera").onclick = function() {controlCamera()};
@@ -113,46 +120,53 @@
             html5QrCode.stop();
             document.getElementById("start_stop_camera").innerHTML = "Start Camera";
 
-            /*
-            try html5QrCode.stop().then(() => {
-                document.getElementById("start_stop_camera").innerHTML = "Start Camera";
-            }).catch((err) => {
-              // Stop failed, handle it.
-            });
-            */
-
         } else if (document.getElementById("start_stop_camera").innerHTML == "Start Camera") {
+
             html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
             cameraFacingMode = 1;
             document.getElementById("start_stop_camera").innerHTML = "Stop Camera";
-
-            /*
-            try html5QrCode.start().then(() => {
-                document.getElementById("start_stop_camera").innerHTML = "Stop Camera";
-            }).catch((err) => {
-              // Stop failed, handle it.
-            });
-            */
 
         }
     }
 
     function flipCamera() {
+
         document.querySelector("#start_stop_camera").disabled = true;
 
         if (cameraFacingMode == 1) {
+
             html5QrCode.stop();
-            html5QrCode.start({ facingMode: { exact: "environment"} }, config, qrCodeSuccessCallback);
+            html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
+
+            document.getElementById().style.webkitTransform = scale(1, 1);
+            document.getElementById().style.MozTransform = scale(1, 1);
+            document.getElementById().style.msTransform = scale(1, 1);
+            document.getElementById().style.OTransform = scale(1, 1);
+            document.getElementById().style.transform = scale(1, 1);
+
             cameraFacingMode = 2;
+
         } else if (cameraFacingMode == 2) {
+
             html5QrCode.stop();
             html5QrCode.start({ facingMode: "user" }, config, qrCodeSuccessCallback);
+
+            document.getElementById().style.webkitTransform = scale(-1, 1);
+            document.getElementById().style.MozTransform = scale(-1, 1);
+            document.getElementById().style.msTransform = scale(-1, 1);
+            document.getElementById().style.OTransform = scale(-1, 1);
+            document.getElementById().style.transform = scale(-1, 1);
+
             cameraFacingMode = 1;
+
         } else {
+
             console.log("Error: no camera facing mode set.");
+
         }
 
         document.querySelector("#start_stop_camera").disabled = false;
+
     }
 
     /*
