@@ -101,7 +101,7 @@
     const config = { fps: 10, qrbox: { width: 300, height: 300 } };
 
     // prefer front camera
-    html5QrCode.start({ facingMode: "user" }, config, qrCodeSuccessCallback);
+    html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
     cameraFacingMode = 1;
 
     document.getElementById("flip_camera").onclick = function() {flipCamera()};
@@ -122,7 +122,7 @@
             */
 
         } else if (document.getElementById("start_stop_camera").innerHTML == "Start Camera") {
-            html5QrCode.start({ facingMode: "user" }, config, qrCodeSuccessCallback);
+            html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
             cameraFacingMode = 1;
             document.getElementById("start_stop_camera").innerHTML = "Stop Camera";
 
